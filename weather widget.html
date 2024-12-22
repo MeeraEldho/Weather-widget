@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Weather Widget</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6dd5fa, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .weather-widget {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 90%;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .widget-header {
+      background: linear-gradient(135deg, #007BFF, #00C6FF);
+      padding: 20px;
+      color: white;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .widget-content {
+      padding: 20px;
+    }
+
+    .temperature {
+      font-size: 2.0em;
+      font-weight: bold;
+      color: #80afe1;
+      margin: 10px 0;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .temperature:hover {
+      transform: scale(1.2);
+      color: #040457; /* Change color on hover */
+    }
+
+    .condition {
+      font-size: 1.5em;
+      color: #f1ae42;
+      margin: 5px 0 20px 0;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    /* Pulse animation for weather condition text */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .icon img {
+      width: 100px;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-out; /* Fade-in animation */
+    }
+
+    /* Fade-in effect for the weather icon */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .extra-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .extra-info div {
+      text-align: center;
+      color: #000000;
+      padding: 10px;
+      border-radius: 10px;
+      position: relative;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .extra-info div:hover {
+      transform: scale(1.05);
+      background-color: #a2bbc9;
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 123, 255, 0.4); /* Add shadow on hover */
+    }
+
+    .extra-info div span {
+      display: block;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: inherit;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 150px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 120%; /* Position above the tooltip */
+      left: 50%;
+      margin-left: -75px; /* Offset the tooltip to center */
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Weekly Forecast Section */
+    .weekly-forecast {
+      margin-top: 20px;
+    }
+
+    .weekly-forecast h3 {
+      font-size: 1.2em;
+      color: #579ae1;
+      margin-bottom: 10px;
+    }
+
+    .forecast-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .forecast-day {
+      flex: 1;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .forecast-day:hover {
+      transform: scale(1.05); /* Slight scale up on hover */
+      background-color: #c8e9fb;
+      color: white;
+    }
+
+    .forecast-day img {
+      width: 50px;
+      margin-bottom: 5px;
+    }
+
+    .forecast-day .day {
+      font-weight: bold;
+      color: #07014b;
+      margin-bottom: 5px;
+    }
+
+    .forecast-day .temp {
+      font-size: 1em;
+      font-weight: bold;
+      color: #1c5f7c;
+    }
+
+    .forecast-day .condition {
+      font-size: 0.9em;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-widget">
+    <!-- Header Section -->
+    <div class="widget-header">
+      Weekly Weather Forecast
+    </div>
+
+    <!-- Main Content -->
+    <div class="widget-content">
+      <div class="icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/861/861059.png" alt="Sunny">
+      </div>
+      <div class="temperature">25°C</div>
+      <div class="condition">Sunny</div>
+      <div class="extra-info">
+        <div class="tooltip">
+          <span>45%</span>
+          Humidity
+        </div>
+        <div class="tooltip">
+          <span>10 km/h</span>
+          Wind
+        </div>
+        <div class="tooltip">
+          <span>1012 mb</span>
+          Pressure
+        </div>
+      </div>
+
+      <!-- Weekly Forecast -->
+      <div class="weekly-forecast">
+        <h3>7-Day Forecast</h3>
+        <div class="forecast-row">
+          <div class="forecast-day">
+            <div class="day">Mon</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/861/861059.png" alt="Sunny">
+            <div class="temp">25°C</div>
+            <div class="condition">Sunny</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Tue</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" alt="Rainy">
+            <div class="temp">20°C</div>
+            <div class="condition">Rainy</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Wed</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/414/414825.png" alt="Cloudy">
+            <div class="temp">22°C</div>
+            <div class="condition">Cloudy</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Thu</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/414/414825.png" alt="Cloudy">
+            <div class="temp">23°C</div>
+            <div class="condition">Cloudy</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Fri</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/861/861059.png" alt="Sunny">
+            <div class="temp">27°C</div>
+            <div class="condition">Sunny</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Sat</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" alt="Rainy">
+            <div class="temp">19°C</div>
+            <div class="condition">Rainy</div>
+          </div>
+          <div class="forecast-day">
+            <div class="day">Sun</div>
+            <img src="https://cdn-icons-png.flaticon.com/512/861/861059.png" alt="Sunny">
+            <div class="temp">28°C</div>
+            <div class="condition">Sunny</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
